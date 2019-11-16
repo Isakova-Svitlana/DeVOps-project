@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"db","Source":"/opt/git/Learning_Ansible_containers_vsTerraform/Terraform/modules/database","Dir":".terraform/modules/db"},{"Key":"pd","Source":"/opt/git/Learning_Ansible_containers_vsTerraform/Terraform/modules/production","Dir":".terraform/modules/pd"},{"Key":"","Source":"","Dir":"."}]}
