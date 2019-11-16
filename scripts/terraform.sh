@@ -5,8 +5,9 @@ if [ -e $config ]
 then
   rm $config
 fi
+ pwd
  cd terraform/Terraform
- echo pwd 
+ pwd 
  terraform init
  terraform plan
  terraform plan -out=plan.txt
