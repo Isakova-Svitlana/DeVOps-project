@@ -1,0 +1,80 @@
+---
+- name: Update yum index
+  yum:
+    state: present
+    update_cache: yes
+- name: Install docker dependencies
+  yum: name={{ item }} state=present update_cache=yes
+  with_items:
+      - yum-utils
+      - device-mapper-persistent-data 
+      - lvm2
+      - mc
+      - python-pip
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+    state: latest      
+- name: Yum add docker repo
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+- name: YUM - install docker-ce
+  package:
+      name: docker-ce
+      state: present
+- name: Enable docker systemd service
+  service:
+      name: docker
+      state: started
+      enabled: yes
+- name: Add users to docker group
+  user:
+      name: buildserver
+      groups: docker
+      append: yes
+- name: Create docker volume1
+  command: docker volume create --name Gatalogue_Mysql
+- name: Create docker volume2
+  command: docker volume create --name Garts_Mongodb
+
+- name: Remove  docker swarm
+  docker_swarm:
+        force: yes
+        state: absent
+  
+- name: Initializing docker swarm
+  docker_swarm:
+       state: present
+#  ignore_errors: true
+       
+- name: Update swarm configuration
+  docker_swarm:
+       state: present
+       election_tick: 5
+         
+- name: Inspect swarm
+  docker_swarm_info:
+  ignore_errors: yes
+  register: result
+          
+- name: Add token to dummy host1
+  add_host:
+      name: worker_token1
+      token: "{{ result.swarm_facts.JoinTokens.Worker }}"
+      
+- name: Create a network with driver options
+  docker_network:
+      name: shop-socks
+      driver: overlay
+      state: present
+      attachable: yes
+      
+- name: Docker Login
+  docker_login:
+        registry: https://eu.gcr.io
+        username: _json_key
+        debug: true	
+        password: " {{ lookup('file', '/home/buildagent/keys/docker-pull/MyFirstProject-c828c313f537.json')}}"
+  register: res1                  
+                  

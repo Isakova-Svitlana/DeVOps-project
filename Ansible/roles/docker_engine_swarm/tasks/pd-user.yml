@@ -1,0 +1,17 @@
+---
+- name: Creating user pd_db
+  user:
+     name=pd_db
+     shell=/bin/bash
+- name: Add  user to sudoers
+  lineinfile:
+      "dest=/etc/sudoers
+      regexp='^remote ALL'
+      line='pd_db ALL=(ALL) NOPASSWD: ALL'
+      state=present"
+- name: Create a 2048-bit SSH key for user jsmith in ~pd_db/.ssh/pd_db
+  user:
+     name: pd_db
+     generate_ssh_key: yes
+     ssh_key_bits: 2048
+     ssh_key_file: .ssh/pd_db
