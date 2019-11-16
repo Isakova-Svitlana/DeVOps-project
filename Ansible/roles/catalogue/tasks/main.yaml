@@ -1,0 +1,24 @@
+---
+- name: Create a catalogue_swarm _overlay container
+  docker_container:
+           name: catalogue
+           image: eu.gcr.io/united-aura-252016/catalogue:latest 
+           state: started
+           detach: yes
+           interactive: yes
+           recreate: yes
+           tty: no
+           pull: true
+           published_ports: 8080:80
+
+#- name: Attach network overlay
+#  shell: "docker network disconnect shop-socks catalogue"
+           
+- name: Attach network overlay
+  shell: "docker network connect shop-socks catalogue"
+  
+- name: Clean up Docker unused images
+  docker_prune:
+         images: yes
+         images_filters:
+                dangling: true
