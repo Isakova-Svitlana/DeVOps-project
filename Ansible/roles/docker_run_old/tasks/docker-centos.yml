@@ -1,0 +1,84 @@
+---
+##- name: Docker init swarm
+##  yum:
+##    state: latest
+##    update_cache: yes
+    
+##- name: Worker token from manager swarm node 
+##  debug:
+##      msg: "Worker token  is {{ hostvars['worker_token1']['token'] }}"
+
+##- name: Leave swarm for a node
+##  docker_swarm:
+##      state: absent
+
+##- name: Join to swarm as worker node
+##  shell: "docker swarm join --token {{ hostvars['worker_token1']['token'] }} {{ hostvars['production']['ansible_default_ipv4']['address'] }}:2377"
+
+##- name: Docker Login
+##  docker_login:
+##       registry: https://eu.gcr.io
+##       username: _json_key
+##       debug: true
+##       password: " {{ lookup('file', '/home/buildagent/keys/docker-pull/MyFirstProject-c828c313f537.json')}}"
+##  register: res1
+  
+- name: Create a mgdb_swarm _overlay container for carts microservice
+  docker_container:
+           name: mgdb_swarm
+           image: eu.gcr.io/united-aura-252016/mgdb:latest 
+           state: started
+           pull: true
+#           networks_cli_compatible: yes
+#           purge_networks: yes
+#           network_mode: shop-socks
+#           detach: yes
+#           interactive: no
+#           tty: no
+#           debug: yes
+#           networks:
+#              - name: shop-socks
+           published_ports: 27017:27017
+           volumes:
+              - Garts_Mongodb:/data/db
+#  register: res5
+  
+- name: Attach network overlay
+  shell: "docker network connect shop-socks mgdb_swarm"
+  register: res6
+
+- name: Create a mysql_swarm _overlay container for catalogue
+  docker_container:
+           name: catalogue-db
+           image: eu.gcr.io/united-aura-252016/cataloguedb:latest 
+           state: started
+           pull: true
+#           env:
+#              MYSQL_ROOT_PASSWORD DEFAULT_PASS
+#              MYSQL_ALLOW_EMPTY_PASSWORD: "TRUE"
+#              MYSQL_DATABASE: "socksdb"
+           published_ports: 
+               - 3306:3306
+               - 33060:33060
+#           volumes:
+#              - Catalogue_Mysql:/var/lib/mysql
+#  register: res7
+
+
+- name: Attach network overlay
+  shell: "docker network connect shop-socks catalogue-db"
+#  register: res6
+
+#- debug:
+#    var=res7
+   
+#- debug:
+#    var=res5  
+    
+#- debug:
+#    var=res6                                                                                                       
+- name: Clean up Docker unused images
+  docker_prune:
+      images: yes
+      images_filters:
+            dangling: true   
