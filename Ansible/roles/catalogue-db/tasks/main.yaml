@@ -5,6 +5,8 @@
         image: eu.gcr.io/united-aura-252016/cataloguedb:latest 
         state: started
         pull: true
+        restart: yes
+        restart_policy: unless-stopped
         recreate: yes
         published_ports: 
             - 3306:3306 
