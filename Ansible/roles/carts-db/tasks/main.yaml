@@ -5,6 +5,8 @@
         image: eu.gcr.io/united-aura-252016/mgdb:latest 
         state: started
         pull: true
+        restart: yes
+        restart_policy: unless-stopped
         recreate: yes
         networks:
             - name: shop-socks
