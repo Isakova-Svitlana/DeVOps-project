@@ -6,6 +6,8 @@
            state: started
            detach: yes
            interactive: yes
+           restart: yes
+           restart_policy: unless-stopped
            recreate: yes
            tty: no
            pull: true
