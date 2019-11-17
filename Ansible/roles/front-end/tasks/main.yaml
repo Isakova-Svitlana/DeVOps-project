@@ -8,6 +8,8 @@
           interactive: yes
           tty: no
           pull: true
+          restart: yes
+          restart_policy: unless-stopped
           recreate: yes
           published_ports: 80:8079
           
