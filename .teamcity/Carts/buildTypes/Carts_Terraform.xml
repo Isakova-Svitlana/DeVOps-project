@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="58edb404-8adb-41e2-8c33-af81f20a183a" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Terraform_creating_Instances</name>
+  <description>run IaaS</description>
+  <settings>
+    <options>
+      <option name="buildNumberPattern" value="3.0.0-%build.counter%" />
+    </options>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_3" name="RUN two instances by Terraform" type="simpleRunner">
+        <parameters>
+          <param name="command.executable" value="terraform/scripts/terraform.sh" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="Carts_Terraform">
+        <checkout-rule rule="+:.=&gt;terraform" />
+      </vcs-entry-ref>
+    </vcs-settings>
+    <requirements />
+    <build-triggers />
+    <cleanup />
+  </settings>
+</build-type>
+
