@@ -5,7 +5,7 @@ if [ -e $config ]
 then
   rm $config
 fi
- cd ../Terraform 
+ cd terraform/Terraform
  terraform init
  terraform plan
  terraform plan -out=plan.txt
