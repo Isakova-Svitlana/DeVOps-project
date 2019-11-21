@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="1e850f32-d335-4200-8b38-6ee430579081" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Microservice1_Carts</name>
+  <description />
+  <settings>
+    <options>
+      <option name="buildNumberPattern" value="3.0.0-%build.counter%" />
+    </options>
+    <disabled-settings>
+      <setting-ref ref="RUNNER_4" />
+      <setting-ref ref="RUNNER_6" />
+    </disabled-settings>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_1" name="" type="Maven2">
+        <parameters>
+          <param name="goals" value="clean test-compile integration-test package" />
+          <param name="localRepoScope" value="agent" />
+          <param name="maven.path" value="/opt/apache-maven" />
+          <param name="pomLocation" value="carts_microservice/pom.xml" />
+          <param name="runnerArgs" value="-Dmaven.test.failure.ignore=true" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="userSettingsSelection" value="userSettingsSelection:default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_5" name="Creating docker image carts" type="DockerCommand">
+        <parameters>
+          <param name="command.args" value="--pull" />
+          <param name="docker.command.type" value="build" />
+          <param name="docker.image.namesAndTags" value="carts:%build.number%" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="dockerImage.platform" value="linux" />
+          <param name="dockerfile.path" value="carts_microservice/Dockerfile" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_28" name="Connect to the google container registry" type="simpleRunner">
+        <parameters>
+          <param name="script.content" value="cat /home/buildagent/keys/docker-push/MyFirstProject-d93f4ea454d2.json | docker login -u _json_key --password-stdin https://eu.gcr.io" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_26" name="Prepare image for pushing to google registry - current tag" type="DockerCommand">
+        <parameters>
+          <param name="command.args" value="carts:%build.number% eu.gcr.io/united-aura-252016/carts:%build.number%" />
+          <param name="docker.command.type" value="other" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="docker.sub.command" value="tag" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.build.workingDir" value="carts_microservice" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_30" name="Prepare image for pushing to google registry - latest tag" type="DockerCommand">
+        <parameters>
+          <param name="command.args" value="carts:%build.number% eu.gcr.io/united-aura-252016/carts:latest" />
+          <param name="docker.command.type" value="other" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="docker.sub.command" value="tag" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.build.workingDir" value="carts_microservice" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_27" name="Pushing image to google registry-current tag" type="DockerCommand">
+        <parameters>
+          <param name="docker.command.type" value="push" />
+          <param name="docker.image.namesAndTags" value="eu.gcr.io/united-aura-252016/carts:%build.number%" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_29" name="Pushing image to google registry-latest tag" type="DockerCommand">
+        <parameters>
+          <param name="docker.command.type" value="push" />
+          <param name="docker.image.namesAndTags" value="eu.gcr.io/united-aura-252016/carts:latest" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_7" name="Removing created image" type="DockerCommand">
+        <parameters>
+          <param name="command.args" value="carts:%build.number%" />
+          <param name="docker.command.type" value="other" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="docker.sub.command" value="rmi" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.build.workingDir" value="carts_microservice" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_25" name="ansible_carts" type="simpleRunner">
+        <parameters>
+          <param name="command.executable" value="carts_playbook/scripts/ansible_carts.sh" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6" name="Saving image" type="DockerCommand">
+        <parameters>
+          <param name="command.args" value="-o /home/buildagent/images/carts/carts:%build.number%.tar carts:%build.number%" />
+          <param name="docker.command.type" value="other" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="docker.sub.command" value="save" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_4" name="Transport image carts to production" type="simpleRunner">
+        <parameters>
+          <param name="command.executable" value="/home/buildagent/scripts/copy_images.sh" />
+          <param name="command.parameters" value="carts carts %build.number% production carts" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="Carts_HttpsGithubComIsakovaSvitlanaCartsGitRefsHeadsMaster">
+        <checkout-rule rule="+:.=&gt; carts_microservice" />
+      </vcs-entry-ref>
+      <vcs-entry-ref root-id="Carts_CartsAnsible">
+        <checkout-rule rule="+:.=&gt; carts_playbook" />
+      </vcs-entry-ref>
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:*" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="DockerSupport" type="DockerSupport">
+        <parameters>
+          <param name="cleanupPushed" value="true" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+
