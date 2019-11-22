@@ -1,0 +1,12 @@
+---
+- hosts: db
+  become: true
+  gather_facts: no
+  roles:
+    - catalogue-db
+            
+- hosts: pd
+  become: true
+  gather_facts: no
+  roles:
+    - catalogue
