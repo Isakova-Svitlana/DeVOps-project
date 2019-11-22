@@ -37,7 +37,9 @@
   command: docker volume create --name Gatalogue_Mysql
 - name: Create docker volume2
   command: docker volume create --name Garts_Mongodb
-
+- name: Create docker volume for filebeat
+  command: docker volume create --name filebeatdata
+  
 - name: Remove  docker swarm
   docker_swarm:
         force: yes

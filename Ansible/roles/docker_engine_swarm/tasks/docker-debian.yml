@@ -47,6 +47,9 @@
       name: buildserver
       groups: docker
       append: yes
+      
+- name: Create docker volume for filebeat
+  command: docker volume create --name filebeatdata
 
 - name: Leave swarm for a node
   docker_swarm:
