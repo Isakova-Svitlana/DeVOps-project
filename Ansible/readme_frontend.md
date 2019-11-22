@@ -1,1 +1,0 @@
-Playbook and scripts for microservice frontend
