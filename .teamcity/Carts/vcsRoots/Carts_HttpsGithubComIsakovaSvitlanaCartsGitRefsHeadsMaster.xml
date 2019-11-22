@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="1d6780a9-77ae-4564-a29f-050fefcda451" type="jetbrains.git" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>https://github.com/Isakova-Svitlana/carts.git#refs/heads/master</name>
+  <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
+  <param name="agentCleanPolicy" value="ON_BRANCH_CHANGE" />
+  <param name="authMethod" value="PASSWORD" />
+  <param name="branch" value="refs/heads/master" />
+  <param name="ignoreKnownHosts" value="true" />
+  <param name="secure:password" value="credentialsJSON:552824a0-325c-47a9-978f-5dcbaa503af3" />
+  <param name="submoduleCheckout" value="CHECKOUT" />
+  <param name="url" value="https://github.com/Isakova-Svitlana/carts.git" />
+  <param name="useAlternates" value="true" />
+  <param name="username" value="IsakovaISO" />
+  <param name="usernameStyle" value="USERID" />
+</vcs-root>
+

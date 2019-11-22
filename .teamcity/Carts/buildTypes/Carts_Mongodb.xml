@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="ebd15136-d10e-4321-ad6c-92f51fb8bcd3" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Mongodb_Carts</name>
+  <description>Database_Mongo</description>
+  <settings>
+    <options>
+      <option name="buildNumberPattern" value="3.0.0-%build.counter%" />
+    </options>
+    <disabled-settings>
+      <setting-ref ref="RUNNER_13" />
+      <setting-ref ref="RUNNER_15" />
+    </disabled-settings>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_12" name="Creating image mongodb" type="simpleRunner">
+        <parameters>
+          <param name="command.executable" value="docker" />
+          <param name="command.parameters" value="build -t mgdb:%build.number% carts_playbook/scripts/mongo_docker" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_43" name="Connect to the google container registry" type="simpleRunner">
+        <parameters>
+          <param name="script.content" value="cat /home/buildagent/keys/docker-push/MyFirstProject-d93f4ea454d2.json | docker login -u _json_key --password-stdin https://eu.gcr.io" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_44" name="Prepare image for pushing to google registry - current tag" type="DockerCommand">
+        <parameters>
+          <param name="command.args" value="mgdb:%build.number% eu.gcr.io/united-aura-252016/mgdb:%build.number%" />
+          <param name="docker.command.type" value="other" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="docker.sub.command" value="tag" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.build.workingDir" value="carts_playbook" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_45" name="Prepare image for pushing to google registry - latest tag" type="DockerCommand">
+        <parameters>
+          <param name="command.args" value="mgdb:%build.number% eu.gcr.io/united-aura-252016/mgdb:latest" />
+          <param name="docker.command.type" value="other" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="docker.sub.command" value="tag" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.build.workingDir" value="carts_playbook" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_46" name="Pushing image to google registry-current tag" type="DockerCommand">
+        <parameters>
+          <param name="docker.command.type" value="push" />
+          <param name="docker.image.namesAndTags" value="eu.gcr.io/united-aura-252016/mgdb:%build.number%" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_47" name="Pushing image to google registry-latest tag" type="DockerCommand">
+        <parameters>
+          <param name="docker.command.type" value="push" />
+          <param name="docker.image.namesAndTags" value="eu.gcr.io/united-aura-252016/mgdb:latest" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_14" name="Removing images mgdb" type="DockerCommand">
+        <parameters>
+          <param name="command.args" value="mgdb:%build.number%" />
+          <param name="docker.command.type" value="other" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="docker.sub.command" value="rmi" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.build.workingDir" value="carts_playbook" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_54" name="cartsdb_ansible" type="simpleRunner">
+        <parameters>
+          <param name="command.executable" value="carts_playbook/scripts/ansible_carts.sh" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_13" name="Saving images mgdb" type="DockerCommand">
+        <parameters>
+          <param name="command.args" value="-o /home/buildagent/images/mongodb/mgdb:%build.number%.tar mgdb:%build.number%" />
+          <param name="docker.command.type" value="other" />
+          <param name="docker.push.remove.image" value="true" />
+          <param name="docker.sub.command" value="save" />
+          <param name="dockerfile.source" value="PATH" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_15" name="Transporting mgdb docker images to databaseserver" type="simpleRunner">
+        <parameters>
+          <param name="command.executable" value="/home/buildagent/scripts/copy_images.sh" />
+          <param name="command.parameters" value="mongodb mgdb %build.number% database mongodb" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="Carts_CartsAnsible">
+        <checkout-rule rule="+:.=&gt; carts_playbook" />
+      </vcs-entry-ref>
+    </vcs-settings>
+    <requirements />
+    <build-triggers />
+    <cleanup />
+  </settings>
+</build-type>
+
