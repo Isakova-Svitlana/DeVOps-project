@@ -1,6 +1,0 @@
-- include_tasks: docker-centos.yml
-  when: ansible_os_family == 'RedHat'
-
-- include_tasks: docker-debian.yml
-  when: ansible_os_family == 'Debian'
-
