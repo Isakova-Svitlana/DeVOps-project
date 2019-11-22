@@ -1,0 +1,11 @@
+---
+- name: Creating user pd_db
+  user:
+      name=pd_db
+      shell=/bin/bash
+- name: Add  user to sudoers
+  lineinfile:
+       "dest=/etc/sudoers
+       regexp='^remote ALL'
+       line='pd_db ALL=(ALL) NOPASSWD: ALL'
+       state=present" 
