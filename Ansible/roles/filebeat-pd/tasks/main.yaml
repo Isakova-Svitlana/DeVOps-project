@@ -1,0 +1,25 @@
+---
+- name: Create filebeat container for EFK stack
+  docker_container:
+       name: filebeat
+       image:docker.elastic.co/beats/filebeat:7.4.2 
+       state: started
+       pull: true
+       restart: yes
+       restart_policy: unless-stopped
+       recreate: yes
+       volumes:
+          - filebeat_config.yml:/usr/share/filebeat/filebeat.yml:ro
+          - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
+          - /var/run/docker.sock:/var/run/docker.sock:ro
+          - /var/log/:/var/log/:ro
+          - filebeatdata:/usr/share/filebeat/data/
+          
+- name: Attach network overlay
+  shell: "docker network connect shop-socks filebeat"          
+                                                                                                                         
+- name: Clean up Docker unused images
+    docker_prune:
+         images: yes
+         images_filters:
+                dangling: true 
