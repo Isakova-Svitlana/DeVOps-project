@@ -1,6 +1,0 @@
----
-- hosts: bd
-  become: true
-  gather_facts: no
-  roles:
-    - kibana_nginx-db
