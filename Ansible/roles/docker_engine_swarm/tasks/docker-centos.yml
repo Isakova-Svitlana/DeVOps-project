@@ -39,6 +39,8 @@
   command: docker volume create --name Garts_Mongodb
 - name: Create docker volume for filebeat
   command: docker volume create --name filebeatdata
+- name: Create docker volume for elasticdata
+  command: docker volume create --name elasticdata  
   
 - name: Remove  docker swarm
   docker_swarm:
