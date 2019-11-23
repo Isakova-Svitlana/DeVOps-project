@@ -1,0 +1,22 @@
+---
+- name: Create Elasticsearch container for EFK stack
+  docker_container:
+       name: elasticsearch
+       image:docker.elastic.co/elasticsearch/elasticsearch:7.4.2 
+       state: started
+       pull: true
+       restart: yes
+       restart_policy: unless-stopped
+       recreate: yes
+       networks:
+          - name: shop-socks
+       published_ports: 
+          - 9200:9200
+          - 9300:9300
+       volumes:
+          - elasticdata:/usr/share/elasticsearch/data
+- name: Clean up Docker unused images
+    docker_prune:
+         images: yes
+         images_filters:
+                dangling: true 
