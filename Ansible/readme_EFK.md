@@ -35,6 +35,14 @@ b)
 cluster.name: channa_dev_machine # give a specific name for your
 cluster node.local: true # disable network
 
+or (Some part of config file)
+ cluster.name: "docker-cluster"
+ network.host: 0.0.0.0
+ 
+ # minimum_master_nodes need to be explicitly set when bound on a public IP
+ # set to 1 to allow single node clusters
+ discovery.zen.minimum_master_nodes: 1
+
       Kibana + nginx
       
 2)Install and run Filebeat
