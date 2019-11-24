@@ -1,0 +1,17 @@
+filebeat.inputs:
+- type: log
+  paths:
+      - /var/log/syslog
+#      - /var/log/auth.log
+
+- type: container
+  paths: 
+        - '/var/lib/docker/containers/*/*.log'
+
+
+  
+output.elasticsearch:
+    hosts: ["elasticsearch:9200"]
+    indices:
+        - index: "filebeat-%{[agent.version]}-%{+yyyy.MM.dd}"
+          
