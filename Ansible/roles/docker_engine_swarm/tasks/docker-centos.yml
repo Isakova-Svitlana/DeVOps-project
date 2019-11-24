@@ -40,7 +40,9 @@
 - name: Create docker volume for filebeat
   command: docker volume create --name filebeatdata
 - name: Create docker volume for elasticdata
-  command: docker volume create --name elasticdata  
+  command: docker volume create --name elasticdata
+- name: Create docker volume for nginx log
+  command: docker volume create --name nginxdata    
   
 - name: Remove  docker swarm
   docker_swarm:
