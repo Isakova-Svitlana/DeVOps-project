@@ -5,11 +5,11 @@ provider "google" {
 
 module "pd" {
   #source  = "D:\\TC_TF\\modules\\database"
-   source = "/opt/git/Learning_Ansible_containers_vsTerraform/Terraform/modules/production"
+   source = "Terraform/modules/production"
 }
 module "db" {
   #source  = "D:\\TC_TF\\modules\\database"
-   source = "/opt/git/Learning_Ansible_containers_vsTerraform/Terraform/modules/database"
+   source = "Terraform/modules/database"
 }
 
 
