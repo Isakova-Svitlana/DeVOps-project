@@ -1,7 +1,7 @@
 resource "google_compute_instance" "mgdb" {
   name         = "${format("%s","${var.var_name}")}"
   machine_type  = "custom-4-6144"
-  zone          =   "${format("%s","${var.var_region}-c")}"
+  zone          =   "${format("%s","${var.var_region}-a")}"
   tags          = ["http-server","https-server","mgdb-27017"]
 
   boot_disk {
