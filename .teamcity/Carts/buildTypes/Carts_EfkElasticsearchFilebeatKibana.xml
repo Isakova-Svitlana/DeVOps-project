@@ -4,7 +4,14 @@
   <description />
   <settings>
     <parameters />
-    <build-runners />
+    <build-runners>
+      <runner id="RUNNER_56" name="ElasticSearch installing with Ansible" type="simpleRunner">
+        <parameters>
+          <param name="command.executable" value="EFK/scripts/ansible_elastic.sh" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
     <vcs-settings>
       <vcs-entry-ref root-id="Carts_GitGithubComIsakovaSvitlanaDeVOpsProjectGit">
         <checkout-rule rule="+:.=&gt; EFK" />
