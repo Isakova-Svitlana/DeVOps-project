@@ -18,7 +18,7 @@
           - filebeatdata:/usr/share/filebeat/data/                                                                                                          
      
 - name: Clean up Docker unused images
-    docker_prune:
+  docker_prune:
          images: yes
          images_filters:
                 dangling: true 
