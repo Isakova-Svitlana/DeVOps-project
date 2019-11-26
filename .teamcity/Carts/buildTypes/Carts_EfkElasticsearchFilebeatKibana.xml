@@ -6,7 +6,9 @@
     <parameters />
     <build-runners />
     <vcs-settings>
-      <vcs-entry-ref root-id="Carts_GitGithubComIsakovaSvitlanaDeVOpsProjectGit" />
+      <vcs-entry-ref root-id="Carts_GitGithubComIsakovaSvitlanaDeVOpsProjectGit">
+        <checkout-rule rule="+:.=&gt; EFK" />
+      </vcs-entry-ref>
     </vcs-settings>
     <requirements />
     <build-triggers>
