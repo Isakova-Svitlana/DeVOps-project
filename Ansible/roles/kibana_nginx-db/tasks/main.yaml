@@ -47,7 +47,7 @@
             - configs/kibana.yml:/usr/share/kibana/config/kibana.yml
                                                                                                                                                                                                                                                           
 - name: Clean up Docker unused images
-    docker_prune:
+  docker_prune:
         images: yes
         images_filters
                 dangling: true 

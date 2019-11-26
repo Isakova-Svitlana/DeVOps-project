@@ -17,7 +17,7 @@
           - config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
           - elasticdata:/usr/share/elasticsearch/data
 - name: Clean up Docker unused images
-    docker_prune:
+  docker_prune:
          images: yes
          images_filters:
                 dangling: true 
