@@ -7,7 +7,7 @@
 - name: Copy file
   template:
       src: configs/elasticsearch.yml
-      dest: ./volume/elastic
+      dest: ./volumes/elastic
   
 - name: Create Elasticsearch container for EFK stack
   docker_container:
