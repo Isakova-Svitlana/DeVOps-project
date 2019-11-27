@@ -6,8 +6,8 @@
                  
 - name: Copy file
   template:
-      src: configs/filebeat.yml
-      dest: ./volumes/filebeat/db
+      src: configs/filebeat_db_conf.yml
+      dest: ./volumes/filebeat/db/filebeat.yml
       
 - name: Create filebeat container for EFK stack
   docker_container:
