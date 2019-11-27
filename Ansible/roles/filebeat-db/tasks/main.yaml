@@ -1,4 +1,14 @@
 ---
+- name: Ensures whether dir exists
+  file:
+    path: ./volumes/filebeat/db
+    state: directory
+                 
+- name: Copy file
+  template:
+      src: configs/filebeat.yml
+      dest: ./volumes/filebeat/db
+      
 - name: Create filebeat container for EFK stack
   docker_container:
        name: filebeat
@@ -11,7 +21,7 @@
        networks:
           - name: shop-socks
        volumes:
-          - config/filebeat_db_conf.yml:/usr/share/filebeat/filebeat.yml:ro
+          - ./volumes/filebeat/db/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
           - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
           - /var/run/docker.sock:/var/run/docker.sock:ro
           - /var/log/:/var/log/:ro
