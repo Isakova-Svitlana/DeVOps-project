@@ -24,7 +24,7 @@
           - 9200:9200
           - 9300:9300
        volumes:
-          - ./volume/elastic/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+          - ./volumes/elastic/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
           - elasticdata:/usr/share/elasticsearch/data
 - name: Clean up Docker unused images
   docker_prune:
