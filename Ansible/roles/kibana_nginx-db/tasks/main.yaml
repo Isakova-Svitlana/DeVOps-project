@@ -21,18 +21,18 @@
     state: directory
                  
 - name: Copy nginx config file
-    template:
+  template:
         src: configs/nginx.conf
         dest: ./volumes/nginx
         
 - name: Copy htpassw config filecfor nginx
-    template:
+  template:
         src: configs/.htpasswd
         dest: ./volumes/nginx
         
 
 - name: Copy kibana config file
-    template:
+  template:
         src: configs/kibana.yml
         dest: ./volumes/kibana
 
