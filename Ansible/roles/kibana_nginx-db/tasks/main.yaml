@@ -1,12 +1,12 @@
 ---
 - name: Ensures whether .htpasswd file exists
   file:
-    path: configs/.htpasswd
+    path: configs/htpasswd
     state: touch
 
 - htpasswd:
     create: yes
-    path: configs/.htpasswd
+    path: configs/htpasswd
 #    path: /roles/kibana_nginx-db/tasks/.htpasswd
     name: efk
     password: '55555'
@@ -32,7 +32,7 @@
         
 - name: Copy htpassw config filecfor nginx
   template:
-        src: configs/.htpasswd
+        src: configs/htpasswd
         dest: ./volumes/nginx
         
 
