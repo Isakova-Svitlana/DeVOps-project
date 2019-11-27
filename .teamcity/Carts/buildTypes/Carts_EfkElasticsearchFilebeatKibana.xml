@@ -11,7 +11,7 @@
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
-      <runner id="RUNNER_57" name="Kibana+nginx installation with Ansible" type="simpleRunner">
+      <runner id="RUNNER_57" name="Kibana+nginx installation by Ansible" type="simpleRunner">
         <parameters>
           <param name="command.executable" value="EFK/scripts/ansible_kibana.sh" />
           <param name="teamcity.step.mode" value="default" />
