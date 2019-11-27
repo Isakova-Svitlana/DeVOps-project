@@ -5,7 +5,7 @@
   <settings>
     <parameters />
     <build-runners>
-      <runner id="RUNNER_56" name="ElasticSearch installing with Ansible" type="simpleRunner">
+      <runner id="RUNNER_56" name="ElasticSearch installing by Ansible" type="simpleRunner">
         <parameters>
           <param name="command.executable" value="EFK/scripts/ansible_elastic.sh" />
           <param name="teamcity.step.mode" value="default" />
