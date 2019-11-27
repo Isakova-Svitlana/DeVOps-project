@@ -76,5 +76,5 @@
 - name: Clean up Docker unused images
   docker_prune:
         images: yes
-        images_filters
+        images_filters:
                 dangling: true 
