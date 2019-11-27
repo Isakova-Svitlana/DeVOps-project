@@ -31,6 +31,22 @@
         src: configs/kibana.yml
         dest: ./volumes/kibana
 
+- name: Create kibana container for EFK stack
+  docker_container:
+         name: kibana
+         image: docker.elastic.co/kibana/kibana:7.4.2 
+         state: started
+         pull: true
+         restart: yes
+         restart_policy: unless-stopped
+         recreate: yes
+         networks:
+            - name: shop-socks
+         published_ports: 
+            - 5601:5601
+         volumes:
+            - ./volumes/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+
 
 - name: Create nginx container for EFK stack
   docker_container:
@@ -51,23 +67,7 @@
             - ./volumes/nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./volumes/.htpasswd:/etc/nginx/.htpasswd
             - nginxdata:/var/log/nginx 
-            
-- name: Create kibana container for EFK stack
-  docker_container:
-         name: kibana
-         image: docker.elastic.co/kibana/kibana:7.4.2 
-         state: started
-         pull: true
-         restart: yes
-         restart_policy: unless-stopped
-         recreate: yes
-         networks:
-            - name: shop-socks
-         published_ports: 
-            - 5601:5601
-         volumes:
-            - ./volumes/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
-                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                  
 - name: Clean up Docker unused images
   docker_prune:
         images: yes
