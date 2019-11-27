@@ -1,8 +1,8 @@
 ---
-- name: Ensures {{project_root}}/conf dir exists
-  file: 
-     path= ./volumes/elastic
-     state=directory
+- name: Ensures whether dir exists
+  file:
+     path: ./volumes/elastic
+     state: directory
      
 - name: Copy file
   template:
