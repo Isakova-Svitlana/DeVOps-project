@@ -15,6 +15,11 @@
   pip:
     name: docker
     state: latest      
+
+- name: Install Passlib Module for creating passwd
+  pip:
+    name: passlib
+    state: latest      
 - name: Yum add docker repo
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
