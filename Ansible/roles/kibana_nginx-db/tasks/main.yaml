@@ -1,4 +1,9 @@
 ---
+- name: Ensures whether .htpasswd file exists
+  file:
+    path: configs/.htpasswd
+    state: touch
+
 - htpasswd:
     create: yes
     path: configs/.htpasswd
