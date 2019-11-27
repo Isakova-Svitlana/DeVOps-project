@@ -6,7 +6,7 @@
      
 - name: Copy file
   template:
-      src: EFK/Ansible/configs/elasticsearch.yml
+      src: configs/elasticsearch.yml
       dest: ./volume/elastic
   
 - name: Create Elasticsearch container for EFK stack
