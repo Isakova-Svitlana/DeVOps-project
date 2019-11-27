@@ -1,4 +1,14 @@
 ---
+- name: Ensures whether dir exists
+  file:
+     path: ./volumes/elastic
+     state: directory
+     
+- name: Copy file
+  template:
+      src: configs/elasticsearch.yml
+      dest: ./volumes/elastic
+  
 - name: Create Elasticsearch container for EFK stack
   docker_container:
        name: elasticsearch
@@ -14,7 +24,7 @@
           - 9200:9200
           - 9300:9300
        volumes:
-          - ./configs/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+          - ./volumes/elastic/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
           - elasticdata:/usr/share/elasticsearch/data
 - name: Clean up Docker unused images
   docker_prune:
