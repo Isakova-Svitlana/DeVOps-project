@@ -1,5 +1,5 @@
 ---
-- hosts: bd
+- hosts: db
   become: true
   gather_facts: no
   roles:
