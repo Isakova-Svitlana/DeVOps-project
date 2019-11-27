@@ -1,4 +1,14 @@
 ---
+- name: Ensures whether dir exists
+  file:
+    path: ./volumes/filebeat/pd
+    state: directory
+                 
+- name: Copy file
+  template:
+     src: configs/filebeat_pd_conf.yml
+     dest: ./volumes/filebeat/pd/filebeat.yml
+
 - name: Create filebeat container for EFK stack
   docker_container:
        name: filebeat
@@ -9,7 +19,7 @@
        restart_policy: unless-stopped
        recreate: yes
        volumes:
-          - config/filebeat_pd_conf.yml:/usr/share/filebeat/filebeat.yml:ro
+          - ./volumes/filebeat/pd/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
           - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
           - /var/run/docker.sock:/var/run/docker.sock:ro
           - /var/log/:/var/log/:ro
