@@ -6,7 +6,7 @@
     name: efk
     password: '55555'
     owner: root
-    group: root
+    group: www-data
     mode: 0640
     state: present
 
