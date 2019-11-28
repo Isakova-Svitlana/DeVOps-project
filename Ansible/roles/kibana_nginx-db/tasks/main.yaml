@@ -1,4 +1,9 @@
 ---
+- name: Ensure group "www-data" exists
+  group:
+      name: www-data
+      state: present
+
 - htpasswd:
     create: yes
     path: volumes/nginx/.htpasswd
