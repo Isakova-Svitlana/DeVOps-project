@@ -1,8 +1,8 @@
 ---
-- name: Ensure group "nginx" exists
-  group:
-      name: nginx
-      state: present
+#- name: Ensure group "nginx" exists
+#  group:
+#      name: nginx
+#      state: present
 
 - htpasswd:
     create: yes
@@ -11,8 +11,8 @@
     name: efk
     password: '55555'
     owner: root
-    group: nginx
-    mode: 0640
+#    group: nginx
+    mode: 0644
     state: present
 
 - name: Ensures whether kibana dir exists
