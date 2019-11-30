@@ -1,7 +1,7 @@
 ---
-- name: Ensure group "www-data" exists
+- name: Ensure group "nginx" exists
   group:
-      name: www-data
+      name: nginx
       state: present
 
 - htpasswd:
@@ -11,7 +11,7 @@
     name: efk
     password: '55555'
     owner: root
-    group: www-data
+    group: nginx
     mode: 0640
     state: present
 
