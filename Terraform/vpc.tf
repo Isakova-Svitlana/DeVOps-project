@@ -29,13 +29,13 @@ allow {
 }
 
 resource "google_compute_firewall" "elasticsearch" {
-  name    = "9200"
+  name    = "elasticsearch"
   network = "${var.var_network}"
 allow {
     protocol = "tcp"
     ports    = ["9200"]
   }
-  target_tags = ["elasticsearch"] 
+  target_tags = ["elastic"] 
 }
 
 resource "google_compute_firewall" "catalog-8080" {
