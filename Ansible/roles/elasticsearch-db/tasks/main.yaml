@@ -9,6 +9,22 @@
       src: configs/elasticsearch.yml
       dest: ./volumes/elastic
   
+- name: Creating user "elasticsearch"  
+  user:  
+     name: elasticsearch
+     state: present
+- name: Ensure group "elasticsearch" exists
+  group:
+      name: elasticsearch
+      state: present   
+   
+- name: Permission on volumes
+  file:
+    dest: ./volumes/elastic
+    owner: elasticsearch
+    group: elasticsearch
+    recurse: yes
+      
 - name: Create Elasticsearch container for EFK stack
   docker_container:
        name: elasticsearch
