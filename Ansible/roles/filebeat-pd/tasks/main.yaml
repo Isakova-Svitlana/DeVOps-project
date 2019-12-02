@@ -33,7 +33,8 @@
   file:
     dest: /var/lib/docker/containers
 #    owner: filebeat
-    group: filebeat
+#    group: filebeat
+    mode: '0744'
     recurse: yes
                                                                             
 - name: Permission on socker /var/run/docker.sock
