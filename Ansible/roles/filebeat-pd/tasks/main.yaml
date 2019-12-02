@@ -15,7 +15,7 @@
 #    owner: filebeat
     group: filebeat
     mode: '0640'
-    recurse: yes
+#    recurse: yes
                                       
 - name: Ensures whether dir exists
   file:
