@@ -9,11 +9,12 @@
     name: filebeat
     state: present                                
                     
-- name: Permission on volumes /var/log
+- name: Permission on volumes /var/log/syslog
   file:
-    dest: /var/log
+    dest: /var/log/syslog
 #    owner: filebeat
     group: filebeat
+    mode: '0640'
     recurse: yes
                                       
 - name: Ensures whether dir exists
@@ -38,8 +39,9 @@
 - name: Permission on socker /var/run/docker.sock
   file:
     dest: /var/run/docker.sock
+    mode: '0644'
 #    owner: filebeat
-    group: filebeat
+#    group: filebeat
 #    recurse: yes
                  
 - name: Copy file
@@ -60,7 +62,7 @@
           - ./volumes/filebeat/pd/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
           - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
           - /var/run/docker.sock:/var/run/docker.sock:ro
-          - /var/log/:/var/log/:ro
+          - /var/log/syslog:/var/log/syslog:ro
           - filebeatdata:/usr/share/filebeat/data/
           
 - name: Attach network overlay
