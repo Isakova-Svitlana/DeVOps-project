@@ -14,7 +14,7 @@
     dest: /var/log/messages
 #    owner: filebeat
     group: filebeat
-    mode: '0640'
+    mode: '0644'
 #    recurse: yes
     
 - name: Ensures whether dir exists
@@ -29,17 +29,18 @@
     group: filebeat
     recurse: yes
 
-- name: Permission on volumes /var/lib/docker/containers
-  file:
-    dest: /var/lib/docker/containers
+#- name: Permission on volumes /var/lib/docker/containers
+#  file:
+#    dest: /var/lib/docker/containers
 #    owner: filebeat
-    group: filebeat
-    recurse: yes
+#    group: filebeat
+#    mode: '0744'
+#    recurse: yes
 
-- name: Permission on socker /var/run/docker.sock
-  file:
-    dest: /var/run/docker.sock
-    mode: '0644'
+#- name: Permission on socker /var/run/docker.sock
+#  file:
+#    dest: /var/run/docker.sock
+#    mode: '0644'
 #    owner: filebeat
 #    group: filebeat
 #    recurse: yes
