@@ -1,8 +1,46 @@
 ---
+- name: Creating user "filebeat"  
+  user:  
+    name: filebeat
+    state: present
+
+- name: Ensure group "filebeat" exists
+  group:
+    name: filebeat
+    state: present                                
+
+- name: Permission on volumes /var/log
+  file:
+    dest: /var/log
+#    owner: filebeat
+    group: filebeat
+    recurse: yes
+    
 - name: Ensures whether dir exists
   file:
     path: ./volumes/filebeat/db
     state: directory
+
+- name: Permission on volumes ./volumes/filebeat/db
+  file:
+    dest: ./volumes/filebeat/db
+#    owner: filebeat
+    group: filebeat
+    recurse: yes
+
+- name: Permission on volumes /var/lib/docker/containers
+  file:
+    dest: /var/lib/docker/containers
+#    owner: filebeat
+    group: filebeat
+    recurse: yes
+
+- name: Permission on socker /var/run/docker.sock
+  file:
+    dest: /var/run/docker.sock
+#    owner: filebeat
+    group: filebeat
+#    recurse: yes
                  
 - name: Copy file
   template:
