@@ -36,10 +36,10 @@
     group: filebeat
     recurse: yes
 
-#- name: Permission on socker /var/run/docker.sock
-#  file:
-#    dest: /var/run/docker.sock
-#    mode: '0644'
+- name: Permission on socker /var/run/docker.sock
+  file:
+    dest: /var/run/docker.sock
+    mode: '0644'
 #    owner: filebeat
 #    group: filebeat
 #    recurse: yes
