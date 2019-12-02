@@ -14,7 +14,7 @@
     dest: /var/log/syslog
 #    owner: filebeat
     group: filebeat
-    mode: '0640'
+    mode: '0644'
 #    recurse: yes
                                       
 - name: Ensures whether dir exists
@@ -36,10 +36,10 @@
     group: filebeat
     recurse: yes
                                                                             
-- name: Permission on socker /var/run/docker.sock
-  file:
-    dest: /var/run/docker.sock
-    mode: '0644'
+#- name: Permission on socker /var/run/docker.sock
+#  file:
+#    dest: /var/run/docker.sock
+#    mode: '0644'
 #    owner: filebeat
 #    group: filebeat
 #    recurse: yes
