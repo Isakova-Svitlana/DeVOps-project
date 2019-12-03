@@ -46,3 +46,23 @@ or (Some part of config file)
       Kibana + nginx
       
 2)Install and run Filebeat
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Some information about Kibana
+
+Create index patterns
+
+1)Elasticsearch creates indexes on the data that it stores. Before you can view logs in Kibana, 
+you must define index patterns that match the index names of your log data in Elasticsearch.
+To see a list of all Elasticsearch indexes, click Management in the Kibana web application's left pane and then Index Management.
+
+
+Because your log data is sent by Filebeat, Elasticsearch creates index names with the pattern filebeat-<filebeat_version>-<date>
+
+Depending on your needs, you may want to create multiple index patterns. For example, filebeat-* would fetch all Filebeat-based indexes, while filebeat-6.4.0-2018.08-* would fetch all Filebeat-based indexes created in the month of August, 2018Depending on your needs, you may want to create multiple index patterns. For example, 
+filebeat-* would fetch all Filebeat-based indexes, while filebeat-6.4.0-2018.08-* would fetch all Filebeat-based indexes created in the month of August, 2018
+
+2)Kibana - Index pattern - Create index pattern (for example filebeat-*)- Time Filter (choossing @timestamp) - create index pattern
+3)The Discover, Visualize, Dashboard, and Timelion features in the left pane enable you to view and analyze your log data in different ways.
+
+
