@@ -51,8 +51,8 @@
      dest: ./volumes/filebeat/pd/filebeat.yml
 
 - name: Create filebeat container for EFK stack
+  become: true
   docker_container:
-       become: true
        name: filebeat
        image: docker.elastic.co/beats/filebeat:7.4.2 
        state: started
