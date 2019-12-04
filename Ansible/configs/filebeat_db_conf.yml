@@ -22,7 +22,11 @@ processors:
 output.elasticsearch:
     hosts: ["elasticsearch:9200"]
     indices:
-        - index: "filebeat-%{docker.container.name}-%{+yyyy.MM.dd}"
+        - index: "filebeat-%{[docker.container.name]}-%{+yyyy.MM.dd}"
+
+setup.template:
+  name:  "%{[docker.container.name]}"
+  pattern: "%{[docker.container.name]}-*"
 
 logging.json: true
 logging.metrics.enabled: false 
@@ -36,4 +40,4 @@ logging.files:
   name: filebeat
   keepfiles: 7
   permissions: 0644
-ssl.verification_mode: none     
+ssl.verification_mode: none  

@@ -22,7 +22,11 @@ processors:
 output.elasticsearch:
     hosts: ["elasticsearch:9200"]
     indices:
-        - index: "filebeat-%{docker.container.name}-%{+yyyy.MM.dd}"
+        - index: "filebeat-%{[docker.container.name]}-%{+yyyy.MM.dd}"
+
+setup.template:
+  name:  "%{[docker.container.name]}"
+  pattern: "%{[docker.container.name]}-*"
 
 logging.json: true
 logging.metrics.enabled: false
