@@ -65,4 +65,9 @@ filebeat-* would fetch all Filebeat-based indexes, while filebeat-6.4.0-2018.08-
 2)Kibana - Index pattern - Create index pattern (for example filebeat-*)- Time Filter (choossing @timestamp) - create index pattern
 3)The Discover, Visualize, Dashboard, and Timelion features in the left pane enable you to view and analyze your log data in different ways.
 
+Another important thing to note is that other than application generated logs, we also need metadata associated with the containers, 
+such as container name, image, tags, host etc… This will allow us to specifically identify the exact host and container the logs are generating.
+These data can also be sent easily by Filebeat along with the application log entries.
+
+
 
