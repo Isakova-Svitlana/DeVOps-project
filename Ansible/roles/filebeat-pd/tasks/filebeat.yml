@@ -1,10 +1,13 @@
 filebeat.inputs:
 - type: log
   paths:
-      - /var/log/syslog
+      - /var/log/messages
 #      - /var/log/auth.log
 
 - type: container
+  multiline.pattern: "^[[:space:]]+(at|\\.{3})\\b|^Caused by:"
+  multiline.negate: false
+  multiline.match: after
   paths: 
         - '/var/lib/docker/containers/*/*.log'
 
@@ -15,12 +18,11 @@ processors:
     fields: ["message"]
     target: "json"
     overwrite_keys: true
-    
+      
 output.elasticsearch:
     hosts: ["elasticsearch:9200"]
     indices:
-        - index: "filebeat-%{[agent.version]}-%{+yyyy.MM.dd}"
-
+        - index: "filebeat-%{[docker][container][name]}-%{+yyyy.MM.dd}"
 
 logging.json: true
 logging.metrics.enabled: false
@@ -34,4 +36,4 @@ logging.files:
   name: filebeat
   keepfiles: 7
   permissions: 0644
-ssl.verification_mode: none          
+ssl.verification_mode: none      
