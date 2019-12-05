@@ -5,9 +5,9 @@ filebeat.inputs:
 #      - /var/log/auth.log
 
 - type: container
-  multiline.pattern: "^[[:space:]]+(at|\\.{3})\\b|^Caused by:"
-  multiline.negate: false
-  multiline.match: after
+#  multiline.pattern: "^[[:space:]]+(at|\\.{3})\\b|^Caused by:"
+#  multiline.negate: false
+#  multiline.match: after
   paths: 
         - '/var/lib/docker/containers/*/*.log'
 
